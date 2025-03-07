@@ -1,5 +1,5 @@
 
-# # UMINT-assignments - Matlab 
+# UMINT-Assignments - Matlab 
 This repository contains tasks created for the **Artificial Intelligence** course at the Faculty of Electrical Engineering and Informatics, STU. All tasks are implemented in **Matlab**.
 
 ## Contents
