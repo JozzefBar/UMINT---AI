@@ -16,7 +16,7 @@ This repository contains tasks created for the **Artificial Intelligence** cours
 
 To run the projects, you need to have **Matlab** installed. **Matlab version 2024b** was used during creation
 
-1. Download and install [Matlab](https://www.mathworks.com/products/matlab.html) 
+1. Download and install [Matlab](https://www.mathworks.com/products/matlab.html) .
 2. Download necessary Toolboxes.
 
 		Computer Vision Toolbox
@@ -24,8 +24,8 @@ To run the projects, you need to have **Matlab** installed. **Matlab version 202
 		Fuzzy Logic Toolbox
 		Optimization Toolbox
 		
-4. Clone this repository
-5. Open Matlab, navigate to the directory where this repository is stored, and run the respective scripts.
+4. Clone this repository.
+5. Open Matlab, navigate to the directory where this repository is stored.
 
 
 
@@ -40,6 +40,8 @@ To run the tasks, follow these steps:
 4. Run the main program *(usually named cviko+sth.)*
 
 ## Assignments
+
+For assignments 1 - 4, there is a separate PDF with images and detailed descriptions. Additionally, lecture PDFs contain theoretical explanations of the tasks. *(But in **Slovak Language!**)*
 
 ### Assignment 1
 
