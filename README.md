@@ -41,10 +41,51 @@ To run the tasks, follow these steps:
 
 ## Assignments
 
- ### Assignment 1
- ### Assignment 2
- ### Assignment 3
- ### Assignment 4
+### Assignment 1
+
+Find the global minimum of the **New Schwefel function** for one variable using the **hill-climbing algorithm**.
+
+-   The function is defined in `testfn3b.m` within the domain -800 < x < 800.
+-   Start searching from a random point on the x-axis.
+-   Choose an appropriate step size.
+-   Display the steps using different markers in a graph.
+-   Mark the final result with a unique color.
+
+**Bonus:**
+-   Implement a **stochastic hill-climbing algorithm**.
+-   Extend the task to 2D and 3D function optimization.
+    
+### Assignment 2
+ 
+Find the global minimum of the **New Schwefel function** for 10 variables using a **genetic algorithm (GA)**.
+
+Steps:
+1.  Review the lecture on **evolutionary and genetic algorithms**.
+2.  Implement your own GA program.
+3.  Run the GA and plot the **fitness function evolution** over generations.
+4.  Output the **best individual** with its coordinates and fitness value.
+5.  Run the GA multiple times, compare results, and discuss them.
+    
+**Bonus:** Solve the problem for **100 variables** and the **Eggholder function** for 10 variables.
+    
+
+### Assignment 3
+
+Design a **genetic algorithm** to compute the shortest path for a mobile robot visiting **20 points** in a 2D plane.
+-   The robot must start at **(0,0)** and end at **(100,100)**.
+-   The chromosome represents a **permutation of point indices**.
+-   The fitness function calculates the **total path length**.
+-   Modify **mutation and crossover operations** to handle permutations.
+-   Run the GA at least **10 times**, visualize the **best-found path** and compare results.
+    
+
+### Assignment 4
+
+Optimize **investment allocation** into financial products using a **genetic algorithm**.
+
+-   Respect given **constraints** (as explained in lectures).
+-   Modify the **fitness function** by adding penalties for constraint violations.
+-   Run the GA multiple times, compare results, and analyze constraint fulfillment.
 
 
 
