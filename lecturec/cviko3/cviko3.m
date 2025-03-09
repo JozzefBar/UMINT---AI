@@ -1,85 +1,103 @@
 clc; clear; close all;
 
 % Definovanie bodov (súradnice miest)
-B = [0,0; 25,68; 12,75; 32,17; 51,64; 20,19; 52,87; 80,37; 35,82; 2,15; 50,90; 13,50; 85,52; 97,27; 37,67; 20,82; 49,0; 62,14; 7,60; 100,100];
+B = [0,0; 25,68; 12,75; 32,17; 51,64; 20,19; 52,87; 80,37; 35,82; 2,15; 
+     50,90; 13,50; 85,52; 97,27; 37,67; 20,82; 49,0; 62,14; 7,60; 100,100];
 
 numGenerations = 500;
-numPoints = size(B, 1);   % Počet bodov v B
+numPoints = size(B, 1);  % Počet bodov v B
 popSize = 100;
+MaxIter = 10;
 Fit = zeros(popSize, 1);  % Inicializujeme fitness hodnoty
 
 bestFitnessHistory = zeros(numGenerations, 1);
 bestPathHistory = zeros(numGenerations, numPoints);
 
-Pop = genPermPop(popSize, numPoints);
+% Uchovanie najlepšieho riešenia naprieč všetkými behmi
+globalBestFitness = inf;
+globalBestPath = [];
+globalBestPathIndex = 0;
 
-EliteCount = 6; % Počet najlepších
-OthersCount = popSize - EliteCount; % Zvysok
+colors = lines(MaxIter); % Vytvorí rôzne farby pre každý beh
 
-for gen = 1:numGenerations
-    % Výpočet fitness pre každého jedinca v populácii
-    for i = 1:popSize
-        Fit(i) = Fits(Pop(i,:), B);
+figure; % Jedna figura pre všetky grafy
+hold on;
+
+for i = 1:MaxIter
+    Pop = genPermPop(popSize, numPoints);
+    index = 1;  % Reset indexu pri každom novom behu
+
+    for gen = 1:numGenerations
+        % Výpočet fitness pre každého jedinca v populácii
+        for j = 1:popSize
+            Fit(j) = Fitness(Pop(j,:), B);
+        end
+
+        [sortFitness, sortIndex] = sort(Fit);
+
+        % Výber najlepších a ich kombinácia
+        best = selbest(Pop, Fit, [2 2 2]);
+        supbest = selbest(Pop, Fit, 10);
+        supbest2 = seltourn(Pop, Fit, popSize - 16);
+        concentrate = [supbest; supbest2];
+
+        mix = crosord(concentrate, 1);
+        mut = swappart(mix(:, 2:19), 0.1);
+        mut = invord(mut, 0.3);
+        mut = swapgen(mut, 0.1);
+        mix(:, 2:19) = mut;
+        Pop = [best; mix];
+
+        % Uloženie fitness a cesty len v rámci jedného behu
+        bestFitnessHistory(index) = sortFitness(1,1);
+        bestPathHistory(index, :) = Pop(sortIndex(1,1), :);
+        index = index + 1;
     end
 
-    [sortFitness, sortIndex] = sort(Fit);
-    elite = Pop(sortIndex(1:EliteCount),1:20);
-    randomgen = randperm(popSize);
-    Others = cat(1,Pop(sortIndex(1:OthersCount*(1/2)), 1:20), Pop(randomgen(1:OthersCount*(1/2)),:));
+    fprintf('Beh č %d: Najlepšia fitness = %.2f\n', i, bestFitnessHistory(end));
 
-    mut =  swappart(Others(1:OthersCount,2:19),0.1);
-    mut = swapgen(mut(1:OthersCount,1:18), 0.1);
-    mut = invord(mut(1:OthersCount,1:18),0.3);
-
-    repair = cat(2, ones(popSize-EliteCount,1),mut, 20*ones(popSize-EliteCount,1));
-    Pop = cat(1,elite,repair);
-
-    bestFitnessHistory(gen) = sortFitness(1,1);
-    bestPathHistory(gen, :) = Pop(sortIndex(1,1), :);
-
-    if mod(gen, 20) == 0
-        fprintf('Generácia %d: Najlepšia fitness = %.2f\n', gen, bestFitnessHistory(gen));
+    % Aktualizácia globálne najlepšej cesty
+    if bestFitnessHistory(end) < globalBestFitness
+        globalBestFitness = bestFitnessHistory(end);
+        globalBestPath = bestPathHistory(end, :);
+        globalBestPathIndex = i;
     end
+
+    % Vykreslenie fitness grafu pre aktuálny beh
+    plot(1:numGenerations, bestFitnessHistory, 'Color', colors(i,:), 'LineWidth', 2);
 end
 
-% Vykreslenie fitness grafu na konci
-figure;
-plot(1:numGenerations, bestFitnessHistory, 'b-', 'LineWidth', 2);
+% Pridanie legendy a popisov
 xlabel('Generácia');
 ylabel('Fitness (dĺžka cesty)');
-title('Priebeh fitness počas generácií');
+title('Priebeh fitness počas všetkých behov');
+legend(arrayfun(@(x) ['Beh č ', num2str(x)], 1:MaxIter, 'UniformOutput', false), 'Location', 'northeast');
 grid on;
+hold off;
 
-% Po ukončení cyklu, zobrazíme najlepšie výsledky
-bestPath = bestPathHistory(end, :);
-bestFitness = bestFitnessHistory(end);
+% Zobrazenie najlepšej cesty zo všetkých behov
+disp('Najlepšia cesta zo všetkých behov:');
+disp(globalBestPath);
+fprintf("Dĺžka najlepšej cesty: %.2f\nIterácia: %d\n", globalBestFitness, globalBestPathIndex);
 
-disp('Najlepšia cesta (indexy bodov):');
-disp(bestPath);
-disp(['Dĺžka najlepšej cesty: ', num2str(bestFitness)]);
-
-% Vykreslenie bodov a najlepšej cesty
+% Vykreslenie najlepšej cesty
 figure;
 plot(B(:,1), B(:,2), 'ko', 'MarkerFaceColor','k');  % Zobrazenie bodov
 hold on;
 
-fullPath = [bestPathHistory(end, :)];
+fullPath = globalBestPath;
 pathX = B(fullPath, 1);
 pathY = B(fullPath, 2);
 
-% Vykresliť finálnu cestu
 plot(pathX, pathY, 'r-', 'LineWidth', 3);
-
-% Vyznačiť začiatok a koniec cesty
 plot(B(1,1), B(1,2), 'gs', 'MarkerSize', 15, 'MarkerFaceColor', 'g'); % Začiatok
 plot(B(20,1), B(20,2), 'rs', 'MarkerSize', 15, 'MarkerFaceColor', 'r'); % Koniec
 
-% Pridanie čísiel k bodom
 for i = 1:size(B, 1)
     text(B(i, 1), B(i, 2), num2str(i), 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 end
 
-title('Najlepšia cesta');
+title('Globálne najlepšia cesta');
 xlabel('X');
 ylabel('Y');
 grid on;

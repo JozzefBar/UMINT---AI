@@ -1,4 +1,4 @@
-function [Fit] = Fits(popSize, B) 
+function [Fit] = Fitness(popSize, B) 
     % popSize - permutácia miest (každý riadok je jedinec)
     % B - matica súradníc všetkých miest (každý riadok je [x, y])
 
