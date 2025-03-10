@@ -56,12 +56,12 @@ for i = 1:maxIteration
     plot(1:numGeneration, -bestFitnessHistory, 'LineWidth', 2);
     
     % Výpis najlepšieho riešenia
-    fprintf("Iterácia %d: Najlepšia fitness = %.2f\n", i, -bestFit);
-    fprintf("Rozloženie investícií: [%s]\n\n", num2str(bestSolutions(i, :), '%.2f '));
+    fprintf("Iteration %d: Best Fitness = %.2f\n", i, -bestFit);
+    fprintf("Investment distribution: [%s]\n\n", num2str(bestSolutions(i, :), '%.2f '));
 end
 
-title('Priebeh fitness hodnôt počas evolúcie');
-xlabel('Generácia');
-ylabel('Najlepšia fitness hodnota');
+title('The course of fitness values ​​during evolution');
+xlabel('Generation');
+ylabel('Best Fitness Value');
 grid on;
 hold off;

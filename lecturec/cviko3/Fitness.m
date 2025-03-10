@@ -1,6 +1,4 @@
 function [Fit] = Fitness(popSize, B) 
-    % popSize - permutácia miest (každý riadok je jedinec)
-    % B - matica súradníc všetkých miest (každý riadok je [x, y])
 
     [lpop, ~] = size(popSize); % Počet jedincov v populácii
     Fit = zeros(1, lpop);

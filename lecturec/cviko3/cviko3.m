@@ -46,6 +46,7 @@ for i = 1:MaxIter
         mut = invord(mut, 0.3);
         mut = swapgen(mut, 0.1);
         mix(:, 2:19) = mut;
+
         Pop = [best; mix];
 
         % Uloženie fitness a cesty len v rámci jedného behu
@@ -54,7 +55,7 @@ for i = 1:MaxIter
         index = index + 1;
     end
 
-    fprintf('Beh č %d: Najlepšia fitness = %.2f\n', i, bestFitnessHistory(end));
+    fprintf('Run n. %d: Best Fitness = %.2f\n', i, bestFitnessHistory(end));
 
     % Aktualizácia globálne najlepšej cesty
     if bestFitnessHistory(end) < globalBestFitness
@@ -68,17 +69,17 @@ for i = 1:MaxIter
 end
 
 % Pridanie legendy a popisov
-xlabel('Generácia');
-ylabel('Fitness (dĺžka cesty)');
-title('Priebeh fitness počas všetkých behov');
+xlabel('Generation');
+ylabel('Fitness (path length)');
+title('Fitness progress during all runs');
 legend(arrayfun(@(x) ['Beh č ', num2str(x)], 1:MaxIter, 'UniformOutput', false), 'Location', 'northeast');
 grid on;
 hold off;
 
 % Zobrazenie najlepšej cesty zo všetkých behov
-disp('Najlepšia cesta zo všetkých behov:');
+disp('Best path from all runs');
 disp(globalBestPath);
-fprintf("Dĺžka najlepšej cesty: %.2f\nIterácia: %d\n", globalBestFitness, globalBestPathIndex);
+fprintf("Length of best run: %.2f\nIteration: %d\n", globalBestFitness, globalBestPathIndex);
 
 % Vykreslenie najlepšej cesty
 figure;
@@ -97,7 +98,7 @@ for i = 1:size(B, 1)
     text(B(i, 1), B(i, 2), num2str(i), 'VerticalAlignment', 'bottom', 'HorizontalAlignment', 'right');
 end
 
-title('Globálne najlepšia cesta');
+title('Globally best path');
 xlabel('X');
 ylabel('Y');
 grid on;
