@@ -2,6 +2,8 @@
 # UMINT-Assignments - Matlab 
 This repository contains tasks created for the **Artificial Intelligence** course at the Faculty of Electrical Engineering and Informatics, STU. All tasks are implemented in **Matlab**.
 
+<img src = pics/Calculate-Artificial-Intelligence-GIF-by-Pudgy-Penguins.gif alt = "gif" width = 200 hspace = 50>
+
 ## Contents
 
 - [Installation](#installation)
@@ -26,8 +28,6 @@ To run the projects, you need to have **Matlab** installed. **Matlab version 202
 		
 4. Clone this repository.
 5. Open Matlab, navigate to the directory where this repository is stored.
-
-
 
 ## Usage
 
@@ -56,6 +56,8 @@ Find the global minimum of the **New Schwefel function** for one variable using 
 **Bonus:**
 -   Implement a **stochastic hill-climbing algorithm**.
 -   Extend the task to 2D and 3D function optimization.
+
+   <img src = pics/pic1.png alt = "pic1" width = 500 hspace = 50>
     
 ### Assignment 2
  
@@ -70,6 +72,7 @@ Steps:
     
 **Bonus:** Solve the problem for **100 variables** and the **Eggholder function** for 10 variables.
     
+<img src = pics/pic2.png alt = "pic2" width = 450 hspace = 50>
 
 ### Assignment 3
 
@@ -80,6 +83,7 @@ Design a **genetic algorithm** to compute the shortest path for a mobile robot v
 -   Modify **mutation and crossover operations** to handle permutations.
 -   Run the GA at least **10 times**, visualize the **best-found path** and compare results.
     
+<img src = pics/pic3.png alt = "pic3" width = 450 hspace = 50>
 
 ### Assignment 4
 
