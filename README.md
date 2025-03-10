@@ -1,10 +1,10 @@
 
-# UMINT-Assignments - Matlab 
+# UMINT-Assignments - Matlab 🤖
 This repository contains tasks created for the **Artificial Intelligence** course at the Faculty of Electrical Engineering and Informatics, STU. All tasks are implemented in **Matlab**.
 
 <img src = pics/Calculate-Artificial-Intelligence-GIF-by-Pudgy-Penguins.gif alt = "gif" width = 200 hspace = 50>
 
-## Contents
+## Contents 📚
 
 - [Installation](#installation)
 - [Usage](#usage)
@@ -14,7 +14,7 @@ This repository contains tasks created for the **Artificial Intelligence** cours
   - [Assignment 3](#assignment-3)
   - [Assignment 4](#assignment-4)
 
-## Installation
+## Installation 📥
 
 To run the projects, you need to have **Matlab** installed. **Matlab version 2024b** was used during creation
 
@@ -29,7 +29,7 @@ To run the projects, you need to have **Matlab** installed. **Matlab version 202
 4. Clone this repository.
 5. Open Matlab, navigate to the directory where this repository is stored.
 
-## Usage
+## Usage ⚙️
 
 Each project includes separate scripts and functions, which can be executed directly in the Matlab environment. The scripts are labeled with the assignment names and can be run directly from Matlab.
 
@@ -39,7 +39,7 @@ To run the tasks, follow these steps:
 3. Add the necessary functions to the Matlab path
 4. Run the main program *(usually named cviko+sth.)*
 
-## Assignments
+## Assignments 📄
 
 For assignments 1 - 4, there is a separate PDF with images and detailed descriptions. Additionally, lecture PDFs contain theoretical explanations of the tasks. *(But in **Slovak Language!**)*
 
