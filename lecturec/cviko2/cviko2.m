@@ -13,8 +13,8 @@ for rep = 1:5
     bestFitnessHistory = zeros(1, max_generations);
     for gen = 1:max_generations
 
-        %fitnessValues = testfn3b(Newpop); % Vyhodnotenie fitness - Schwefel
-        fitnessValues = eggholder(Newpop); % Vyhodnotenie fitness -Eggholder
+        fitnessValues = testfn3b(Newpop); % Vyhodnotenie fitness - Schwefel
+        %fitnessValues = eggholder(Newpop); % Vyhodnotenie fitness -Eggholder
 
         % Výber
         bestnum = [1,1,1];

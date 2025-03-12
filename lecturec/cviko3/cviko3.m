@@ -1,6 +1,5 @@
 clc; clear; close all;
 
-% Definovanie bodov (súradnice miest)
 B = [0,0; 25,68; 12,75; 32,17; 51,64; 20,19; 52,87; 80,37; 35,82; 2,15; 
      50,90; 13,50; 85,52; 97,27; 37,67; 20,82; 49,0; 62,14; 7,60; 100,100];
 
@@ -19,8 +18,7 @@ globalBestPath = [];
 globalBestPathIndex = 0;
 
 colors = lines(MaxIter); % Vytvorí rôzne farby pre každý beh
-
-figure; % Jedna figura pre všetky grafy
+figure; 
 hold on;
 
 for i = 1:MaxIter
@@ -41,7 +39,9 @@ for i = 1:MaxIter
         supbest2 = seltourn(Pop, Fit, popSize - 16);
         concentrate = [supbest; supbest2];
 
+        % Mutácia (2:19)
         mix = crosord(concentrate, 1);
+
         mut = swappart(mix(:, 2:19), 0.1);
         mut = invord(mut, 0.3);
         mut = swapgen(mut, 0.1);
@@ -72,14 +72,14 @@ end
 xlabel('Generation');
 ylabel('Fitness (path length)');
 title('Fitness progress during all runs');
-legend(arrayfun(@(x) ['Beh č ', num2str(x)], 1:MaxIter, 'UniformOutput', false), 'Location', 'northeast');
+legend(arrayfun(@(x) ['Run n. ', num2str(x)], 1:MaxIter, 'UniformOutput', false), 'Location', 'northeast');
 grid on;
 hold off;
 
 % Zobrazenie najlepšej cesty zo všetkých behov
-disp('Best path from all runs');
-disp(globalBestPath);
-fprintf("Length of best run: %.2f\nIteration: %d\n", globalBestFitness, globalBestPathIndex);
+fprintf('Best path from all runs:\n[');
+fprintf('%d ', globalBestPath); 
+fprintf("]\nLength of best run: %.2f (Iteration: %d)", globalBestFitness, globalBestPathIndex);
 
 % Vykreslenie najlepšej cesty
 figure;
