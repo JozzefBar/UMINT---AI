@@ -6,13 +6,13 @@ This repository contains tasks created for the **Artificial Intelligence** cours
 
 ## Contents 📚
 
-- [Installation](#installation)
-- [Usage](#usage)
-- [Assignments](#assignments)
-  - [Assignment 1](#assignment-1)
-  - [Assignment 2](#assignment-2)
-  - [Assignment 3](#assignment-3)
-  - [Assignment 4](#assignment-4)
+- [Installation](#installation-)
+- [Usage](#usage-%EF%B8%8F)
+- [Assignments](#assignments-)
+  - [Assignment 1](#assignment-1%EF%B8%8F⃣)
+  - [Assignment 2](#assignment-2%EF%B8%8F⃣)
+  - [Assignment 3](#assignment-3%EF%B8%8F⃣)
+  - [Assignment 4](#assignment-4%EF%B8%8F⃣)
 
 ## Installation 📥
 
