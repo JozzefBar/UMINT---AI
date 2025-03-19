@@ -43,7 +43,7 @@ To run the tasks, follow these steps:
 
 For assignments 1 - 4, there is a separate PDF with images and detailed descriptions. Additionally, lecture PDFs contain theoretical explanations of the tasks. *(But in **Slovak Language!**)*
 
-### Assignment 1
+### Assignment 1️⃣
 
 Find the global minimum of the **New Schwefel function** for one variable using the **hill-climbing algorithm**.
 
@@ -59,7 +59,7 @@ Find the global minimum of the **New Schwefel function** for one variable using 
 
    <img src = pics/pic1.png alt = "pic1" width = 500 hspace = 50>
     
-### Assignment 2
+### Assignment 2️⃣
  
 Find the global minimum of the **New Schwefel function** for 10 variables using a **genetic algorithm (GA)**.
 
@@ -74,7 +74,7 @@ Steps:
     
 <img src = pics/pic2.png alt = "pic2" width = 450 hspace = 50>
 
-### Assignment 3
+### Assignment 3️⃣
 
 Design a **genetic algorithm** to compute the shortest path for a mobile robot visiting **20 points** in a 2D plane.
 -   The robot must start at **(0,0)** and end at **(100,100)**.
@@ -85,7 +85,7 @@ Design a **genetic algorithm** to compute the shortest path for a mobile robot v
     
 <img src = pics/pic3.png alt = "pic3" width = 450 hspace = 50>
 
-### Assignment 4
+### Assignment 4️⃣
 
 Optimize **investment allocation** into financial products using a **genetic algorithm**.
 
@@ -93,5 +93,5 @@ Optimize **investment allocation** into financial products using a **genetic alg
 -   Modify the **fitness function** by adding penalties for constraint violations.
 -   Run the GA multiple times, compare results, and analyze constraint fulfillment.
 
-
+<img src = pics/pic4.png alt = "pic3" width = 450 hspace = 50>
 
