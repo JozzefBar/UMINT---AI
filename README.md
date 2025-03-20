@@ -41,6 +41,8 @@ To run the tasks, follow these steps:
 
 ## Assignments 📄
 
+All assignments are in file seminar [seminar](seminar/).
+
 For assignments 1 - 4, there is a separate PDF with images and detailed descriptions. Additionally, lecture PDFs contain theoretical explanations of the tasks. *(But in **Slovak Language!**)*
 
 ### Assignment 1️⃣
