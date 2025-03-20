@@ -39,9 +39,10 @@ for i = 1:MaxIter
         supbest2 = seltourn(Pop, Fit, popSize - 16);
         concentrate = [supbest; supbest2];
 
-        % Mutácia (2:19)
+        % Kríženie
         mix = crosord(concentrate, 1);
 
+        % Mutácia (2:19)
         mut = swappart(mix(:, 2:19), 0.1);
         mut = invord(mut, 0.3);
         mut = swapgen(mut, 0.1);
