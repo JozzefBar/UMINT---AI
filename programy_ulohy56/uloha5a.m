@@ -21,52 +21,56 @@ zlabel('z')
 % pause
 
 % vstupne a vystupne data na trenovanie neuronovej siete
-% datainnet=[?]';
-% dataoutnet=[?];
+datainnet=[data1; data2; data3; data4; data5]; 
+dataoutnet = [[ones(1,50), zeros(1,50), zeros(1,50), zeros(1,50), zeros(1,50)]
+                [zeros(1,50), ones(1,50), zeros(1,50), zeros(1,50), zeros(1,50)]
+                [ones(1,50), zeros(1,50), ones(1,50), zeros(1,50), zeros(1,50)]
+                [zeros(1,50), zeros(1,50), zeros(1,50), ones(1,50), zeros(1,50)]
+                [zeros(1,50), zeros(1,50), zeros(1,50), zeros(1,50), ones(1,50)]];
 
 % vytvorenie struktury siete
-% pocet_neuronov=[?];
-% net = patternnet(pocet_neuronov);
+pocet_neuronov=5;
+net = patternnet(pocet_neuronov);
 
 % parametre rozdelenia dat na trenovanie, validacne a testovanie
-% net.divideFcn='dividerand';
-% net.divideParam.trainRatio=0.8;
-% net.divideParam.valRatio=0;
-% net.divideParam.testRatio=0.2;
+net.divideFcn='dividerand';
+net.divideParam.trainRatio=0.8;
+net.divideParam.valRatio=0;
+net.divideParam.testRatio=0.2;
 
 % vlastne delenie dat, napr. indexove
-% indx=randperm(250);
-% net.divideFcn='divideind';      % indexove
-% net.divideParam.trainInd=indx(1:150);
-% net.divideParam.valInd=[];
-% net.divideParam.testInd=indx(151:250);
+indx=randperm(250);
+net.divideFcn='divideind';      % indexove
+net.divideParam.trainInd=indx(1:150);
+net.divideParam.valInd=[];
+net.divideParam.testInd=indx(151:250);
 
 
 % nastavenie parametrov trenovania 
-% net.trainParam.goal = ?;       % ukoncovacia podmienka na chybu.
-% net.trainParam.show = 20;           % frekvencia zobrazovania chyby
-% net.trainParam.epochs = ?;        % maximalny pocet trenovacich epoch.
-% net.trainParam.max_fail=12;
+net.trainParam.goal = 5;       % ukoncovacia podmienka na chybu.
+net.trainParam.show = 20;           % frekvencia zobrazovania chyby
+net.trainParam.epochs = 5;        % maximalny pocet trenovacich epoch.
+net.trainParam.max_fail=12;
 
 % trenovanie NS
-% net = train(net,datainnet,dataoutnet);
+net = train(net,datainnet,dataoutnet);
 
 % zobrazenie struktury siete
-% view(net)
+view(net);
 
 % simulacia vystupu NS pre trenovacie data
 % testovanie NS
-% outnetsim = sim(net,datainnet);
+outnetsim = sim(net,datainnet);
 
 % chyba NS a dat
-% err=(outnetsim-dataoutnet);
+err=(outnetsim-dataoutnet);
 
 % percento neuspesne klasifikovanych bodov
-% c = confusion(dataoutnet,outnetsim)
+c = confusion(dataoutnet,outnetsim);
 
 % kontingenËn· matica
-% figure
-% plotconfusion(dataoutnet,outnetsim)
+figure
+plotconfusion(dataoutnet,outnetsim)
 
 % klasifikacia 5 novych bodov do tried
 % doplniù
