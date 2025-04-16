@@ -1,19 +1,15 @@
 close all; clear; clc;
 
-% ===== PARAMETRE SIETE =====
-params.hiddenNeurons = 50;
-params.epochs = 200;
-params.goal = 1e-2;
-params.validationRepeats = 5;
-params.gui = false;
+% pocet neuronov
+neurons = 30;                     
 
-% ===== NAČÍTANIE A PRÍPRAVA DÁT =====
+% nacitanie, priprava dat
 load CTGdata
 inputData = NDATA';
 targetLabels = typ_ochorenia(:)';
-targetOneHot = full(ind2vec(targetLabels));
+targetOut = full(ind2vec(targetLabels));
 
-% Indexy podľa tried
+% Rozdelenie podla tried a zamiesanie
 idx1 = find(targetLabels == 1);
 idx2 = find(targetLabels == 2);
 idx3 = find(targetLabels == 3);
@@ -21,93 +17,104 @@ idx1 = idx1(randperm(length(idx1)));
 idx2 = idx2(randperm(length(idx2)));
 idx3 = idx3(randperm(length(idx3)));
 
-% Blokové rozdelenie
-blocks = 50;
+% Blokove rozdelenie pre krizovu validaciu
+blocks = 55;
 blockIndices = [];
-
 for i = 1:blocks
     r1 = (1 + floor(length(idx1)/blocks)*(i-1)):(floor(length(idx1)/blocks)*i);
     r2 = (1 + floor(length(idx2)/blocks)*(i-1)):(floor(length(idx2)/blocks)*i);
     r3 = (1 + floor(length(idx3)/blocks)*(i-1)):(floor(length(idx3)/blocks)*i);
-    blockIndices(i, :) = [idx1(r1), idx2(r2), idx3(r3)];
+    blockIndices(i,:) = [idx1(r1), idx2(r2), idx3(r3)];
 end
 
-% ===== VÝPOČTY =====
-confTr = zeros(1, params.validationRepeats);
-confTs = zeros(1, params.validationRepeats);
-confAl = zeros(1, params.validationRepeats);
-accTs = zeros(1, params.validationRepeats);
-TPRts = zeros(1, params.validationRepeats);
-TNRts = zeros(1, params.validationRepeats);
+% metriky
+repeats = 5;
+confTr = zeros(1, repeats);  % chyba na trenovacich
+confTs = zeros(1, repeats);  % chyba na testovacich
+confAl = zeros(1, repeats);  % chyba na vsetkych
+accTs = zeros(1, repeats);  % presnost na testovacich
+TPRts = zeros(1, repeats);  % senzitivita
+TNRts = zeros(1, repeats);  % specificita
 
-for run = 1:params.validationRepeats
+bestAcc = -inf; % pociatocna najhorsia presnost
+
+for run = 1:repeats
     idxRand = randperm(blocks);
     idxTrain = reshape(blockIndices(idxRand(1:round(0.6 * blocks)),:)',1,[]);
     idxTest  = reshape(blockIndices(idxRand(round(0.6 * blocks)+1:end),:)',1,[]);
 
-    % Vytvorenie siete
-    net = patternnet(params.hiddenNeurons);
-    net.trainParam.goal = params.goal;
-    net.trainParam.epochs = params.epochs;
-    net.trainParam.show = 10;
-    net.trainParam.showWindow = params.gui;
+    % Vytvorenie a nastavenie siete
+    net = patternnet(neurons);
+    net.trainParam.goal = 10^-2;
+    net.trainParam.epochs = 200;
+
     net.divideFcn = 'divideind';
     net.divideParam.trainInd = idxTrain;
     net.divideParam.testInd = idxTest;
     net.divideParam.valInd = [];
 
-    % Trénovanie
-    [net, tr] = train(net, inputData, targetOneHot);
-    Y = net(inputData);  % simulácia siete na všetky vstupy
+    [net, tr] = train(net, inputData, targetOut);
+    Y = net(inputData);  % vystup celej siete
 
-    % Chyby
-    [confTr(run), ~] = confusion(targetOneHot(:,idxTrain), Y(:,idxTrain));
-    [confTs(run), cmTs] = confusion(targetOneHot(:,idxTest), Y(:,idxTest));
-    [confAl(run), cmAl] = confusion(targetOneHot, Y);
+    [confTr(run), ~] = confusion(targetOut(:,idxTrain), Y(:,idxTrain));
+    [confTs(run), cmTs] = confusion(targetOut(:,idxTest), Y(:,idxTest));
+    [confAl(run), cmAl] = confusion(targetOut, Y);
 
-    % Presnosti
-    accTs(run) = 1 - confTs(run);
-
+    accTs(run) = 1 - confTs(run);    %screenshot
     TP = cmTs(2,2) + cmTs(3,3);
-    FN = cmTs(2,1) + cmTs(3,1) + cmTs(3,2);
+    FN = cmTs(2,1) + cmTs(3,1);
     TPRts(run) = TP / (TP + FN);
-
     TN = cmTs(1,1);
-    FP = cmTs(1,2) + cmTs(1,3) + cmTs(2,3);
+    FP = cmTs(1,2) + cmTs(1,3);
     TNRts(run) = TN / (TN + FP);
+
+    % uloz najlepsiu siet
+    if accTs(run) > bestAcc
+        bestAcc = accTs(run);
+        bestNet = net;
+        bestIdxTrain = idxTrain;
+        bestIdxTest = idxTest;
+        bestY = Y;
+        bestTR = tr;
+        bestRun = run;
+    end
 end
 
-% ===== PREHĽADOVÝ VÝSTUP (upravený) =====
-fprintf('\n=== Súhrnný výstup klasifikácie ===\n\n');
+% vystup
+fprintf('\n=== Výsledky po %d opakovaniach ===\n', repeats);
+fprintf('Najlepšia sieť bola v behu č. %d (počet neurónov: %d) \n', bestRun, neurons);
 
-fprintf('--- Chybovosť neurónovej siete (confusion) ---\n');
-fprintf(' Maximálna chyba: tréning %.2f %% | testovanie %.2f %% | celkovo %.2f %%\n', ...
-    max(confTr)*100, max(confTs)*100, max(confAl)*100);
-fprintf(' Priemerná chyba: tréning %.2f %% | testovanie %.2f %% | celkovo %.2f %%\n', ...
-    mean(confTr)*100, mean(confTs)*100, mean(confAl)*100);
-fprintf(' Minimálna chyba: tréning %.2f %% | testovanie %.2f %% | celkovo %.2f %%\n\n', ...
-    min(confTr)*100, min(confTs)*100, min(confAl)*100);
+fprintf('\n--- Presnosti ---\n');
+fprintf('Testovacia presnosť: MIN %.2f %% | MAX %.2f %% | PRIEMER %.2f %%\n', min(accTs)*100, max(accTs)*100, mean(accTs)*100);
+fprintf('Trénovacia presnosť: MIN %.2f %% | MAX %.2f %% | PRIEMER %.2f %%\n', (1 - max(confTr))*100, (1 - min(confTr))*100, (1 - mean(confTr))*100);
+fprintf('Celkova presnosť:    MIN %.2f %% | MAX %.2f %% | PRIEMER %.2f %%\n', (1 - max(confAl))*100, (1 - min(confAl))*100, (1 - mean(confAl))*100);
 
-fprintf('--- Klasifikačné metriky ---\n');
-fprintf(' Presnosť na testovacích dátach (ACC):      %.2f %%\n', mean(accTs)*100);
-fprintf(' Senzitivita (TPR) pre triedy 2 a 3:         %.2f %%\n', mean(TPRts)*100);
-fprintf(' Špecificita (TNR) pre normálne prípady:     %.2f %%\n\n', mean(TNRts)*100);
+fprintf('\n--- Metriky najlepšej siete ---\n');
+finalY = bestNet(inputData);
+[~, cmTsBest] = confusion(targetOut(:,bestIdxTest), finalY(:,bestIdxTest));
+TP = cmTsBest(2,2) + cmTsBest(3,3);
+FN = cmTsBest(2,1) + cmTsBest(3,1) + cmTsBest(3,2);
+TN = cmTsBest(1,1);
+FP = cmTsBest(1,2) + cmTsBest(1,3) + cmTsBest(2,3);
+TPR_best = TP / (TP + FN);
+TNR_best = TN / (TN + FP);
+acc_best = 1 - confusion(targetOut(:,bestIdxTest), finalY(:,bestIdxTest));
 
-% ===== TEST VZORIEK (5 z každej triedy) =====
-idxSample = [idx1(1:5), idx2(1:5), idx3(1:5)];
-Ysample = net(inputData(:,idxSample));
-expected = targetLabels(idxSample);
-[~, predicted] = max(Ysample);
-fprintf('Očakávané triedy   %s\n', num2str(expected));
-fprintf('  Reálne  triedy   %s\n', num2str(predicted));
-fprintf('Počet správnych odhadov %d\n', sum(expected == predicted));
+fprintf('Presnosť (ACC):    %.2f %%\n', acc_best * 100);
+fprintf('Senzitivita (TPR): %.2f %%\n', TPR_best * 100);
+fprintf('Špecificita (TNR): %.2f %%\n', TNR_best * 100);
 
-% ===== KONFÚZNE MATICE PO POSLEDNOM BEHU =====
-figure;
-plotconfusion(targetOneHot(:,idxTrain), Y(:,idxTrain), 'Trénovacie dáta');
+% graf a matice
+figure; plotconfusion(targetOut(:,bestIdxTrain), bestY(:,bestIdxTrain), 'Trénovacie dáta');
+figure; plotconfusion(targetOut(:,bestIdxTest), bestY(:,bestIdxTest), 'Testovacie dáta');
+figure; plotconfusion(targetOut, bestY, 'Celkove dáta');
+figure; plotperform(bestTR);
 
-figure;
-plotconfusion(targetOneHot(:,idxTest), Y(:,idxTest), 'Testovacie dáta');
-
-figure;
-plotconfusion(targetOneHot, Y, 'Celkové dáta');
+% testovanie vzoriek
+sampleIdx = [idx1(1:5), idx2(1:5), idx3(1:5)];
+sampleOutput = bestNet(inputData(:,sampleIdx)); 
+[~, predicted] = max(sampleOutput);
+expected = targetLabels(sampleIdx);
+fprintf('\nOčakávané triedy:   %s\n', num2str(expected));
+fprintf('Predikované triedy: %s\n', num2str(predicted));
+fprintf('Správne odhady: %d z %d\n', sum(expected == predicted), length(expected));

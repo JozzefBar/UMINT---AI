@@ -1,6 +1,6 @@
 % Príklad na aproximáciu nelin. funkcie pomocou NS typu
 % MLP siet s 1 vstupom a 1 výstupom
-clear; clc;
+clear; clc;close all;
 load datafun;
 
 % vytvorenie štruktúry NS 
@@ -8,7 +8,7 @@ load datafun;
 % 1 skrytá vrstva s poctom neurónov 25 s funkciou 'tansig'
 % 1 výstup s funkciou 'purelin' - y suradnica
 % trénovacia metóda - Levenberg-Marquardt
-pocet_neuronov = 60;
+pocet_neuronov = 250;
 net=fitnet(pocet_neuronov);
 
 % % vyber rozdelenia
@@ -34,7 +34,7 @@ net.divideParam.testInd=indx_test;
 % Nastavenie parametrov trénovania
 net.trainParam.goal = 10^-4;     % Ukoncovacia podmienka na chybu
 net.trainParam.show = 5;        % Frekvencia zobrazovania priebehu chyby trénovania net.trainParam.epochs = 100;  % Max. po?et trénovacích cyklov.
-net.trainParam.epochs = 500;      % maximalny pocet trenovacich epoch.
+net.trainParam.epochs = 250;      % maximalny pocet trenovacich epoch.
 
 % % Trénovanie NS
 net=train(net,x,y);
@@ -49,7 +49,7 @@ y2=y(indx_test);
 out1 = outnetsim(indx_train);     % výstup siete pre trénovanie
 out2 = outnetsim(indx_test);      % výstup siete pre testovanie
 
-% === 6. Výpoèet chýb ===
+% Výpoèet chýb
 % SSE = suma štvorcov rozdielov
 SSE_train = sum((y1 - out1).^2);
 SSE_test  = sum((y2 - out2).^2);
@@ -69,22 +69,20 @@ fprintf('Chyby na tréningových dátach:\nSSE = %.6f, MSE = %.6f, MAE = %.6f\n', .
 fprintf('Chyby na testovacích dátach:\nSSE = %.6f, MSE = %.6f, MAE = %.6f\n', ...
          SSE_test, MSE_test, MAE_test);
 
-% === 7. Vizualizácia výsledkov ===
+% Vizualizácia výsledkov
 figure;
 hold on;
 
-% Skutoèné hodnoty
-plot(x(indx_train), y(indx_train), 'b+', 'DisplayName', 'Skutoèné hodnoty trénovacie dáta');
-plot(x(indx_test), y(indx_test), 'g*', 'DisplayName', 'Skutoèné hodnoty testovacie dáta');
+% Skutoèné hodnoty dát
+plot(x(indx_train), y(indx_train), 'b+', 'DisplayName', 'Trénovacie dáta');  % modré +
+plot(x(indx_test), y(indx_test), 'g*', 'DisplayName', 'Testovacie dáta');    % zelené *
 
-% Predikované hodnoty siete
-plot(x(indx_train), outnetsim(indx_train), 'mo', 'DisplayName', 'Predikované hodnoty trénovacie dáta');
-plot(x(indx_test), outnetsim(indx_test), 'ks', 'DisplayName', 'Predikované hodnoty testovacie dáta');
+% Výstup siete ako èervená èiara s kruhmi
+plot(x, outnetsim, 'ro-', 'LineWidth', 1, 'MarkerSize', 4, ...
+    'DisplayName', 'Výstup NS');
 
 xlabel('x');
 ylabel('y');
-title('Porovnanie skutoèných a predikovaných hodnôt');
-legend('Location','best');
+title(sprintf('Priebeh pôvodných dát a výstupu NS pre %d neurónov', pocet_neuronov));
+legend('Location', 'best');
 grid on;
-
-

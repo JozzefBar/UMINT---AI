@@ -30,7 +30,7 @@ dataoutnet = [repmat([1;0;0;0;0],1,size(data1,1)), ...
               repmat([0;0;0;0;1],1,size(data5,1))];
 
 % vytvorenie struktury siete
-pocet_neuronov= 9;
+pocet_neuronov= 11;
 net = patternnet(pocet_neuronov);
 
 
@@ -49,10 +49,10 @@ net.divideParam.testRatio=0.2;
 
 
 % nastavenie parametrov trenovania 
-net.trainParam.goal = 10^-3;       % ukoncovacia podmienka na chybu.
+net.trainParam.goal = 10^-4;       % ukoncovacia podmienka na chybu.
 net.trainParam.show = 20;           % frekvencia zobrazovania chyby
 net.trainParam.epochs = 150;        % maximalny pocet trenovacich epoch.
-net.trainParam.max_fail=12;
+net.trainParam.max_fail=12;      
 
 % trenovanie NS
 net = train(net,datainnet,dataoutnet);
@@ -82,7 +82,6 @@ newPoints = [0.2 0.3 0.7;   % bod 1
             0.5 0.5 0.5;   % bod 3
             0.1 0.9 0.1;   % bod 4
             0.6 0.6 0.6]'; % bod 5 
-
 
 output = sim(net, newPoints);         % výstupy siete
 [~, class] = max(output, [], 1);    % indexy najvyšších hodnôt = predikované triedy
