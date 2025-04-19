@@ -8,7 +8,7 @@ load datafun;
 % 1 skrytá vrstva s poctom neurónov 25 s funkciou 'tansig'
 % 1 výstup s funkciou 'purelin' - y suradnica
 % trénovacia metóda - Levenberg-Marquardt
-pocet_neuronov = 250;
+pocet_neuronov = 25;
 net=fitnet(pocet_neuronov);
 
 % % vyber rozdelenia

@@ -60,13 +60,13 @@ for run = 1:repeats
     [confTs(run), cmTs] = confusion(targetOut(:,idxTest), Y(:,idxTest));
     [confAl(run), cmAl] = confusion(targetOut, Y);
 
-    accTs(run) = 1 - confTs(run);    %screenshot
     TP = cmTs(2,2) + cmTs(3,3);
     FN = cmTs(2,1) + cmTs(3,1);
     TPRts(run) = TP / (TP + FN);
     TN = cmTs(1,1);
     FP = cmTs(1,2) + cmTs(1,3);
     TNRts(run) = TN / (TN + FP);
+    accTs(run) = (TP + TN) / (TP + TN + FP + FN);    %screenshot
 
     % uloz najlepsiu siet
     if accTs(run) > bestAcc
