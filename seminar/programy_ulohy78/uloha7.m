@@ -1,19 +1,16 @@
 clear; clc; close all;
 
-% --- Načítanie dát ---
-load datapiscisla_all  % očakáva XDataall
+load datapiscisla_all
 
 % Vstupy
 X = XDataall;
 
-% Automatické vytvorenie výstupných tried
-% Predpoklad: čísla 0 až 9 sa opakujú v poradí, rovnomerne
 numClasses = 10;
 samplesPerClass = size(X, 2) / numClasses;
 TDataall = repelem(0:9, samplesPerClass);
 
 % Prevod na one-hot výstupy
-T = full(ind2vec(TDataall + 1));  % +1 kvôli MATLABovskému 1-based indexu
+T = full(ind2vec(TDataall + 1));  % výstup
 
 % Počet behov pre validáciu
 repeats = 5;
@@ -22,26 +19,20 @@ accTest = zeros(1, repeats);
 nets = cell(1, repeats);
 bestAcc = -inf;
 
-% --- Opakovaný tréning pre rôzne rozdelenia dát ---
+% --- Opakovaný tréning pre rôzne delenie dát ---
 for run = 1:repeats
-    % Rozdelenie dát (60% tréning, 20% validácia, 20% test)
-    N = size(X,2);
-    idx = randperm(N);
-    trainInd = idx(1:round(0.6*N));
-    valInd = [];  % žiadna validácia
-    testInd = idx(round(0.6*N)+1:end);  % zvyšných 40 % ide na test
-
     % Vytvorenie siete
-    neurons = 30;
+    neurons = 40;
     net = patternnet(neurons);
 
+    % Automatické náhodné rozdelenie dát
     net.divideFcn = 'dividerand';
-    net.divideParam.trainInd = trainInd;
-    net.divideParam.valInd = valInd;
-    net.divideParam.testInd = testInd;
+    net.divideParam.trainRatio = 0.6;
+    net.divideParam.valRatio = 0;
+    net.divideParam.testRatio = 0.4;
 
     % Parametre učenia
-    net.trainParam.goal = 10^-4;
+    net.trainParam.goal = 1e-4;
     net.trainParam.epochs = 300;
 
     % Trénovanie
@@ -49,6 +40,10 @@ for run = 1:repeats
 
     % Výstupy siete
     Y = net(X);
+
+    % Indexy po rozdelení
+    trainInd = tr.trainInd;
+    testInd = tr.testInd;
 
     % Vyhodnotenie
     [~, predictedTrain] = max(Y(:,trainInd));
@@ -64,8 +59,6 @@ for run = 1:repeats
         bestAcc = accTest(run);
         bestNet = net;
         bestTR = tr;
-        bestTestInd = testInd;
-        bestTrainInd = trainInd;
         bestY = Y;
         bestRun = run;
     end
@@ -79,9 +72,8 @@ fprintf('Trénovacia presnosť: MIN %.2f %% | MAX %.2f %% | PRIEMER %.2f %%\n', 
     min(accTrain)*100, max(accTrain)*100, mean(accTrain)*100);
 
 % --- Výstupy najlepšej siete ---
-fprintf('\nNajlepšia sieť (beh č. %d) \n', bestRun);
-figure; plotconfusion(T(:,bestTrainInd), bestY(:,bestTrainInd), 'Train');
-figure; plotconfusion(T(:,bestTestInd), bestY(:,bestTestInd), 'Test');
+fprintf('\nNajlepšia sieť (beh č. %d)\n', bestRun);
+figure; plotconfusion(T, bestY, 'Celková konfúzna matica');
 figure; plotperform(bestTR);
 
 % --- Testovanie vzoriek ---
@@ -92,7 +84,7 @@ for i = 0:9
 end
 
 sampleInput = X(:, sampleIdx);
-sampleOutput = bestNet(sampleInput);  % výstup siete
+sampleOutput = bestNet(sampleInput);
 [~, predicted] = max(sampleOutput);
 
 for i = 1:length(sampleIdx)
@@ -102,11 +94,7 @@ for i = 1:length(sampleIdx)
     fprintf('] -> Predikcia: %d\n', predicted(i) - 1);
 end
 
-
-sampleInput = X(:, sampleIdx);
-sampleOutput = bestNet(sampleInput);
-[~, predicted] = max(sampleOutput);
-
 fprintf('Skutočné čísla:     %s\n', num2str(TDataall(sampleIdx)));
 fprintf('Predikované čísla:  %s\n', num2str(predicted - 1));
-fprintf('Správne klasifikovaných: %d z %d\n', sum(predicted - 1 == TDataall(sampleIdx)), length(sampleIdx));
+fprintf('Správne klasifikovaných: %d z %d\n', ...
+    sum(predicted - 1 == TDataall(sampleIdx)), length(sampleIdx));

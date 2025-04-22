@@ -1,7 +1,7 @@
 close all; clear; clc;
 
 % pocet neuronov
-neurons = 30;                     
+neurons = 30;
 
 % nacitanie, priprava dat
 load CTGdata
@@ -29,14 +29,12 @@ end
 
 % metriky
 repeats = 5;
-confTr = zeros(1, repeats);  % chyba na trenovacich
-confTs = zeros(1, repeats);  % chyba na testovacich
-confAl = zeros(1, repeats);  % chyba na vsetkych
-accTs = zeros(1, repeats);  % presnost na testovacich
-TPRts = zeros(1, repeats);  % senzitivita
-TNRts = zeros(1, repeats);  % specificita
+confTr = zeros(1, repeats);
+confTs = zeros(1, repeats);
+confAl = zeros(1, repeats);
+accTs = zeros(1, repeats);
 
-bestAcc = -inf; % pociatocna najhorsia presnost
+bestAcc = -inf;
 
 for run = 1:repeats
     idxRand = randperm(blocks);
@@ -45,7 +43,7 @@ for run = 1:repeats
 
     % Vytvorenie a nastavenie siete
     net = patternnet(neurons);
-    net.trainParam.goal = 10^-2;
+    net.trainParam.goal = 1e-2;
     net.trainParam.epochs = 200;
 
     net.divideFcn = 'divideind';
@@ -54,21 +52,14 @@ for run = 1:repeats
     net.divideParam.valInd = [];
 
     [net, tr] = train(net, inputData, targetOut);
-    Y = net(inputData);  % vystup celej siete
+    Y = net(inputData);
 
+    % Metiky pre current run
     [confTr(run), ~] = confusion(targetOut(:,idxTrain), Y(:,idxTrain));
-    [confTs(run), cmTs] = confusion(targetOut(:,idxTest), Y(:,idxTest));
-    [confAl(run), cmAl] = confusion(targetOut, Y);
+    [confTs(run), ~] = confusion(targetOut(:,idxTest), Y(:,idxTest));
+    [confAl(run), ~] = confusion(targetOut, Y);
+    accTs(run) = 1 - confTs(run);
 
-    TP = cmTs(2,2) + cmTs(3,3);
-    FN = cmTs(2,1) + cmTs(3,1);
-    TPRts(run) = TP / (TP + FN);
-    TN = cmTs(1,1);
-    FP = cmTs(1,2) + cmTs(1,3);
-    TNRts(run) = TN / (TN + FP);
-    accTs(run) = (TP + TN) / (TP + TN + FP + FN);    %screenshot
-
-    % uloz najlepsiu siet
     if accTs(run) > bestAcc
         bestAcc = accTs(run);
         bestNet = net;
@@ -80,7 +71,7 @@ for run = 1:repeats
     end
 end
 
-% vystup
+% Výsledky
 fprintf('\n=== Výsledky po %d opakovaniach ===\n', repeats);
 fprintf('Najlepšia sieť bola v behu č. %d (počet neurónov: %d) \n', bestRun, neurons);
 
@@ -89,30 +80,32 @@ fprintf('Testovacia presnosť: MIN %.2f %% | MAX %.2f %% | PRIEMER %.2f %%\n', m
 fprintf('Trénovacia presnosť: MIN %.2f %% | MAX %.2f %% | PRIEMER %.2f %%\n', (1 - max(confTr))*100, (1 - min(confTr))*100, (1 - mean(confTr))*100);
 fprintf('Celkova presnosť:    MIN %.2f %% | MAX %.2f %% | PRIEMER %.2f %%\n', (1 - max(confAl))*100, (1 - min(confAl))*100, (1 - mean(confAl))*100);
 
-fprintf('\n--- Metriky najlepšej siete ---\n');
+% Výpočet metrík pre najlepšiu sieť
 finalY = bestNet(inputData);
 [~, cmTsBest] = confusion(targetOut(:,bestIdxTest), finalY(:,bestIdxTest));
+
 TP = cmTsBest(2,2) + cmTsBest(3,3);
-FN = cmTsBest(2,1) + cmTsBest(3,1) + cmTsBest(3,2);
+FN = cmTsBest(2,1) + cmTsBest(3,1);
 TN = cmTsBest(1,1);
-FP = cmTsBest(1,2) + cmTsBest(1,3) + cmTsBest(2,3);
+FP = cmTsBest(1,2) + cmTsBest(1,3);
 TPR_best = TP / (TP + FN);
 TNR_best = TN / (TN + FP);
-acc_best = 1 - confusion(targetOut(:,bestIdxTest), finalY(:,bestIdxTest));
+acc_best = (TP + TN) / (TP + TN + FP + FN);
 
+fprintf('\n--- Metriky najlepšej siete ---\n');
 fprintf('Presnosť (ACC):    %.2f %%\n', acc_best * 100);
 fprintf('Senzitivita (TPR): %.2f %%\n', TPR_best * 100);
 fprintf('Špecificita (TNR): %.2f %%\n', TNR_best * 100);
 
-% graf a matice
+% Vizualizácie
 figure; plotconfusion(targetOut(:,bestIdxTrain), bestY(:,bestIdxTrain), 'Trénovacie dáta');
 figure; plotconfusion(targetOut(:,bestIdxTest), bestY(:,bestIdxTest), 'Testovacie dáta');
 figure; plotconfusion(targetOut, bestY, 'Celkove dáta');
 figure; plotperform(bestTR);
 
-% testovanie vzoriek
+% Testovanie vzoriek
 sampleIdx = [idx1(1:5), idx2(1:5), idx3(1:5)];
-sampleOutput = bestNet(inputData(:,sampleIdx)); 
+sampleOutput = bestNet(inputData(:,sampleIdx));
 [~, predicted] = max(sampleOutput);
 expected = targetLabels(sampleIdx);
 fprintf('\nOčakávané triedy:   %s\n', num2str(expected));
