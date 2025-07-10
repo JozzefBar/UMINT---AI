@@ -13,6 +13,12 @@ This repository contains tasks created for the **Artificial Intelligence** cours
   - [Assignment 2](#assignment-2%EF%B8%8F⃣)
   - [Assignment 3](#assignment-3%EF%B8%8F⃣)
   - [Assignment 4](#assignment-4%EF%B8%8F⃣)
+  - [Assignment 5](#assignment-5%EF%B8%8F⃣)
+  - [Assignment 6](#assignment-6%EF%B8%8F⃣)
+  - [Assignment 7](#assignment-7%EF%B8%8F⃣)
+  - [Assignment 8](#assignment-8%EF%B8%8F⃣)
+  - [Assignment 9](#assignment-9%EF%B8%8F⃣)
+- [Personal Documentation](#personal-documentation-%EF%B8%8F)
 
 ## Installation 📥
 
@@ -41,7 +47,7 @@ To run the tasks, follow these steps:
 1. Open **Matlab**. 
 2. Navigate to the directory where the files are stored using the Matlab file explorer. 
 3. Add the necessary functions to the Matlab path
-4. Run the main program *(usually named cviko+sth.)*
+4. Run the main program *(usually named cviko+sth. or programy_ulohyXX)*
 
 ## Assignments 📄
 
@@ -101,7 +107,8 @@ Optimize **investment allocation** into financial products using a **genetic alg
 
 <img src = pics/pic4.png alt = "pic3" width = 450 hspace = 50>
 
-Assignment 5️⃣
+### Assignment 5️⃣
+
 5a – Classification with MLP
 Create a multi-layer perceptron (MLP) network to classify points into 5 groups based on 3D coordinates (x, y, z). Data is in databody.mat. Use patternet for classification and split data into training (max. 80%) and testing.
 
@@ -122,7 +129,8 @@ Approximate a non-linear function f(x) = y using an MLP network (fitnet). Data i
 
 <img src = pics/pic5b.png alt = "pic1" width = 500 hspace = 50>
 
-Assignment 6️⃣
+### Assignment 6️⃣
+
 Use an MLP network to classify fetal condition based on CTG (cardiotocographic) measurements. Use CTGdata.mat, which contains 2126 samples with 25 features and 3 classes (normal, suspect, pathological).
 
 - Use up to 60% of data for training, rest for testing.
@@ -133,7 +141,8 @@ Use an MLP network to classify fetal condition based on CTG (cardiotocographic) 
 
 <img src = pics/pic6.png alt = "pic1" width = 500 hspace = 50>
 
-Assignment 7️⃣
+### Assignment 7️⃣
+
 Train an MLP network to recognize handwritten digits using the MNIST dataset. Inputs are 28x28 pixel images (flattened to 784 inputs), values normalized to [0, 1].
 
 - Use max 60% of samples for training.
@@ -143,7 +152,8 @@ Train an MLP network to recognize handwritten digits using the MNIST dataset. In
 
 <img src = pics/pic7.png alt = "pic1" width = 500 hspace = 50>
 
-Assignment 8️⃣
+### Assignment 8️⃣
+
 Train a Convolutional Neural Network (CNN) to recognize handwritten digits (same MNIST dataset as in Assignment 7).
 
 - Use 60% of data for training.
@@ -155,7 +165,8 @@ Train a Convolutional Neural Network (CNN) to recognize handwritten digits (same
 
 <img src = pics/pic8.png alt = "pic1" width = 500 hspace = 50>
 
-Assignment 9️⃣
+### Assignment 9️⃣
+
 Create a fuzzy logic controller for a traffic intersection (FEI–ZOO) using a Mamdani system. Control signal timing for 3 traffic light configurations based on the number of cars waiting.
 - Define fuzzy inputs: number of cars on green and red.
 - Define output: green light duration.
@@ -167,3 +178,23 @@ Create a fuzzy logic controller for a traffic intersection (FEI–ZOO) using a M
 - Modify fuzzy inputs to improve control quality by at least 10% (adjust init_krizovatka).
 
 <img src = pics/pic9.png alt = "pic1" width = 500 hspace = 50>
+
+## Personal Documentation 🗃️
+
+This repository also includes personal documentation in **Slovak language**. The documentation contains short summaries and outputs for each task.
+
+-   Documentation for **Assignments 1–4** is available in:
+    
+    -   [`Assignments 1–4 pdf`](seminar/documentation/barcak_jozef/barcak_jozef.pdf)
+        
+    -   [`Assignments 1–4 docx`](seminar/documentation/barcak_jozef/barcak_jozef.docx)
+        
+-   Documentation for **Assignments 5–8** is available in:
+    
+    -   [`Assignments 5–8 pdf`](seminar/documentation/barcak_jozef/barcak_jozef2.pdf)
+        
+    -   [`Assignments 5–8 docx`](seminar/documentation/barcak_jozef/barcak_jozef2.docx)
+        
+-   **Assignment 9** does not have documentation.
+    
+All documentation with its screenshots is located in the [`documentation`](seminar/documentation) folder.
