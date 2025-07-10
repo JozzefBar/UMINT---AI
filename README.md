@@ -25,9 +25,13 @@ To run the projects, you need to have **Matlab** installed. **Matlab version 202
 		Deep Learning Toolbox
 		Fuzzy Logic Toolbox
 		Optimization Toolbox
-		
-4. Clone this repository.
-5. Open Matlab, navigate to the directory where this repository is stored.
+
+3. Download opational Toolboxe *(for better workspace)*
+
+   		New Desktop for MATLAB Tech Preview
+     
+5. Clone this repository.
+6. Open Matlab, navigate to the directory where this repository is stored.
 
 ## Usage ⚙️
 
@@ -97,3 +101,69 @@ Optimize **investment allocation** into financial products using a **genetic alg
 
 <img src = pics/pic4.png alt = "pic3" width = 450 hspace = 50>
 
+Assignment 5️⃣
+5a – Classification with MLP
+Create a multi-layer perceptron (MLP) network to classify points into 5 groups based on 3D coordinates (x, y, z). Data is in databody.mat. Use patternet for classification and split data into training (max. 80%) and testing.
+
+- Tune the number of hidden neurons to minimize classification error.
+- Plot the training error and the confusion matrix.
+- Classify 5 predefined test points and visualize group assignment.
+
+<img src = pics/pic5a.png alt = "pic1" width = 500 hspace = 50>
+
+5b – Function Approximation with MLP
+Approximate a non-linear function f(x) = y using an MLP network (fitnet). Data is in datafun.mat.
+
+- Use provided training/testing indices.
+- Find minimal number of hidden neurons to reach test error < 1e-4.
+- Plot error curves for training and testing.
+- Compute SSE, MSE, MAE for different neuron counts.
+- Visualize real vs. predicted outputs.
+
+<img src = pics/pic5b.png alt = "pic1" width = 500 hspace = 50>
+
+Assignment 6️⃣
+Use an MLP network to classify fetal condition based on CTG (cardiotocographic) measurements. Use CTGdata.mat, which contains 2126 samples with 25 features and 3 classes (normal, suspect, pathological).
+
+- Use up to 60% of data for training, rest for testing.
+- Compare at least 3 network structures.
+- Use confusion matrices to evaluate performance.
+- Run 5-fold cross-validation or repeated training.
+- Target classification accuracy on test data: >92%.
+
+<img src = pics/pic6.png alt = "pic1" width = 500 hspace = 50>
+
+Assignment 7️⃣
+Train an MLP network to recognize handwritten digits using the MNIST dataset. Inputs are 28x28 pixel images (flattened to 784 inputs), values normalized to [0, 1].
+
+- Use max 60% of samples for training.
+- Tune network structure to achieve >95% classification accuracy.
+- Validate using cross-validation or multiple training runs.
+- Evaluate accuracy using confusion matrices.
+
+<img src = pics/pic7.png alt = "pic1" width = 500 hspace = 50>
+
+Assignment 8️⃣
+Train a Convolutional Neural Network (CNN) to recognize handwritten digits (same MNIST dataset as in Assignment 7).
+
+- Use 60% of data for training.
+- Design CNN with 2–3 convolutional layers.
+- Compare training progress and accuracy with MLP.
+- Run training multiple times or use cross-validation.
+- Evaluate using confusion matrix and accuracy scores.
+- Compare two CNN structures and MLP vs CNN results.
+
+<img src = pics/pic8.png alt = "pic1" width = 500 hspace = 50>
+
+Assignment 9️⃣
+Create a fuzzy logic controller for a traffic intersection (FEI–ZOO) using a Mamdani system. Control signal timing for 3 traffic light configurations based on the number of cars waiting.
+- Define fuzzy inputs: number of cars on green and red.
+- Define output: green light duration.
+- Tune fuzzy rules to minimize waiting cars and maximize throughput.
+- Compare results of fixed-timing vs fuzzy logic in modes 3–6.
+- Evaluate performance based on number of waiting cars.
+
+**Bonus:**  *(not done)*
+- Modify fuzzy inputs to improve control quality by at least 10% (adjust init_krizovatka).
+
+<img src = pics/pic9.png alt = "pic1" width = 500 hspace = 50>
