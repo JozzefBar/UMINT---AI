@@ -1,6 +1,6 @@
 
 # UMINT-Assignments - Matlab 🤖
-This repository contains tasks created for the **Artificial Intelligence** course at the Faculty of Electrical Engineering and Informatics, STU. All tasks are implemented in **Matlab**.
+This repository contains tasks and also lectures created for the **Artificial Intelligence** course at the Faculty of Electrical Engineering and Informatics, STU. All tasks are implemented in **Matlab**.
 
 <img src = pics/Calculate-Artificial-Intelligence-GIF-by-Pudgy-Penguins.gif alt = "gif" width = 200 hspace = 50>
 
