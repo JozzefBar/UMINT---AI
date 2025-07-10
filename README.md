@@ -53,7 +53,7 @@ To run the tasks, follow these steps:
 
 All assignments are in file [seminar](seminar/).
 
-For assignments 1 - 4, there is a separate PDF with images and detailed descriptions. Additionally, lecture PDFs contain theoretical explanations of the tasks. *(But in **Slovak Language!**)*
+For assignments `1 - 4`, `5 - 8` and `9`, there is a separate PDF with images and detailed descriptions. Additionally, lecture PDFs contain theoretical explanations of the tasks. *(But in **Slovak Language!**)*
 
 ### Assignment 1️⃣
 
