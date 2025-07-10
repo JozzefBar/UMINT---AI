@@ -22,7 +22,7 @@ bestAcc = -inf;
 % --- Opakovaný tréning pre rôzne delenie dát ---
 for run = 1:repeats
     % Vytvorenie siete
-    neurons = 40;
+    neurons = 130;
     net = patternnet(neurons);
 
     % Automatické náhodné rozdelenie dát

@@ -1,7 +1,7 @@
 close all; clear; clc;
 
 % pocet neuronov
-neurons = 30;
+neurons = 180;
 
 % nacitanie, priprava dat
 load CTGdata

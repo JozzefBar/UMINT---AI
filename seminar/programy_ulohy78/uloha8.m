@@ -1,7 +1,7 @@
 clear; clc; close all;
 
 %Načítanie dát
-load datapiscisla_all
+load datapiscisla_all;
 X = XDataall;
 numClasses = 10;
 samplesPerClass = size(X, 2) / numClasses;
@@ -15,22 +15,48 @@ N = size(X, 2);
 Ximgs = reshape(X, 28, 28, 1, N);  % 4D: 28x28x1xN
 
 %Definícia CNN štruktúry
-layers = [
-    imageInputLayer([28 28 1])                           % vstupná vrstva – obraz 28x28x1
-    convolution2dLayer(5, 6)                             % 2D konvolúcia – 6 filtrov, rozmer 5x5
-    batchNormalizationLayer                              % dávková normalizácia
-    reluLayer()                                          % ReLU funkcia
+% layers = [
+%     imageInputLayer([28 28 1])                           % vstupná vrstva – obraz 28x28x1
+%     convolution2dLayer(5, 6)                             % 2D konvolúcia – 6 filtrov, rozmer 5x5
+%     batchNormalizationLayer                              % dávková normalizácia
+%     reluLayer()                                          % ReLU funkcia
+% 
+%     convolution2dLayer(5, 12)                            % 2D konvolúcia – 12 filtrov, rozmer 5x5
+%     batchNormalizationLayer                              % dávková normalizácia
+%     reluLayer()                                          % ReLU funkcia
+%     maxPooling2dLayer(2, 'Stride', 2)                    % max pooling – 2x2, krok 2
+%     fullyConnectedLayer(32)                              % plne prepojená vrstva – 32 neurónov
+%     dropoutLayer(0.5)                                    % dropout vrstva
+%     fullyConnectedLayer(10)                              % plne prepojená vrstva – 10 neurónov
+%     softmaxLayer()                                       % softmax aktivačná funkcia
+%     classificationLayer()                                % klasifikačná vrstva – 10 tried
+% ];
 
-    convolution2dLayer(5, 12)                            % 2D konvolúcia – 12 filtrov, rozmer 5x5
-    batchNormalizationLayer                              % dávková normalizácia
-    reluLayer()                                          % ReLU funkcia
-    maxPooling2dLayer(2, 'Stride', 2)                    % max pooling – 2x2, krok 2
-    fullyConnectedLayer(32)                              % plne prepojená vrstva – 32 neurónov
-    dropoutLayer(0.5)                                    % dropout vrstva
-    fullyConnectedLayer(10)                              % plne prepojená vrstva – 10 neurónov
-    softmaxLayer()                                       % softmax aktivačná funkcia
-    classificationLayer()                                % klasifikačná vrstva – 10 tried
+%Iné nastavenie CNN
+layers = [
+   imageInputLayer([28 28 1])
+
+   convolution2dLayer(5, 8)        % 8 filtrov, 5x5
+   batchNormalizationLayer
+   reluLayer()
+
+   convolution2dLayer(5, 16)       % 16 filtrov, 5x5
+   batchNormalizationLayer
+   reluLayer()
+    
+   convolution2dLayer(3, 24)       % Pridaná 3. konvolučná vrstva: 24 filtrov, 3x3
+   batchNormalizationLayer
+   reluLayer()
+    
+   maxPooling2dLayer(2, 'Stride', 2)
+
+   fullyConnectedLayer(32)
+   dropoutLayer(0.5)
+  fullyConnectedLayer(10)
+   softmaxLayer()
+   classificationLayer()
 ];
+
 
 %Tréning s opakovaním
 repeats = 5;

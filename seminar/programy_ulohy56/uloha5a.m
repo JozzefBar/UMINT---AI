@@ -51,7 +51,7 @@ net.divideParam.testRatio=0.2;
 % nastavenie parametrov trenovania 
 net.trainParam.goal = 10^-4;       % ukoncovacia podmienka na chybu.
 net.trainParam.show = 20;           % frekvencia zobrazovania chyby
-net.trainParam.epochs = 150;        % maximalny pocet trenovacich epoch.
+net.trainParam.epochs = 200;        % maximalny pocet trenovacich epoch.
 net.trainParam.max_fail=12;      
 
 % trenovanie NS
